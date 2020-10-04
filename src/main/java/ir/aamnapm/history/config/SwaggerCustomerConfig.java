@@ -26,7 +26,7 @@ public class SwaggerCustomerConfig {
     public Docket customDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ir.aamnapm.fieldHistory"))
+                .apis(RequestHandlerSelectors.basePackage("ir.aamnapm.history"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo()).globalOperationParameters(

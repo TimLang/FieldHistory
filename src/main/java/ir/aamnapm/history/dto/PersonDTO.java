@@ -25,6 +25,7 @@ public class PersonDTO {
     @Setter
     public static class Info extends PersonDTO {
         private Long id;
+        private Integer version;
     }
 
 }
