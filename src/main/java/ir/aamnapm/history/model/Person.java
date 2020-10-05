@@ -1,6 +1,8 @@
 package ir.aamnapm.history.model;
 
 
+import ir.aamnapm.history.annotation.HistoryField;
+import ir.aamnapm.history.annotation.HistoryFieldEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "person")
+@HistoryFieldEntity(name = "person")
 public class Person {
 
     @Id
@@ -22,6 +25,7 @@ public class Person {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @HistoryField
     @Column(name = "age", length = 4)
     private Integer age;
 

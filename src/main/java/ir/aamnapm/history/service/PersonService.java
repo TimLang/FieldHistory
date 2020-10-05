@@ -3,8 +3,10 @@ package ir.aamnapm.history.service;
 import ir.aamnapm.history.dto.PersonDTO;
 import ir.aamnapm.history.model.Person;
 import ir.aamnapm.history.repository.PersonDAO;
+import ir.aamnapm.history.utils.HistoryFieldUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class PersonService implements IPersonService {
 
     private final PersonDAO personDAO;
+    private final IFieldHistoryService iFieldHistoryService;
 
     @Override
     public PersonDTO.Info create(PersonDTO dto) {
@@ -39,14 +42,17 @@ public class PersonService implements IPersonService {
         return personDTO;
     }
 
+    @Transactional
     @Override
     public PersonDTO.Info update(PersonDTO dto, Long id) {
         Optional<Person> byId = personDAO.findById(id);
 
         if (byId.isPresent()) {
 
+            new HistoryFieldUtil(dto, PersonDTO.class, byId.get(), Person.class, iFieldHistoryService).checkAndSave();
+
             Person person = byId.get();
-            person.setVersion(person.getVersion() + 1);
+            person.setId(id);
             person.setAge(dto.getAge());
             person.setComment(dto.getComment());
             person.setLastName(dto.getLastName());
@@ -61,6 +67,7 @@ public class PersonService implements IPersonService {
             personDTO.setVersion(save.getVersion());
             personDTO.setLastName(save.getLastName());
             personDTO.setFirstName(save.getFirstName());
+
 
             return personDTO;
 

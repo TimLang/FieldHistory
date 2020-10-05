@@ -2,6 +2,7 @@ package ir.aamnapm.history.dto;
 
 
 import io.swagger.annotations.ApiModelProperty;
+import ir.aamnapm.history.annotation.HistoryField;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class PersonDTO {
     @ApiModelProperty(required = true, example = "علی")
     private String lastName;
 
+    @HistoryField
     @ApiModelProperty(required = true, example = "23")
     private Integer age;
 
