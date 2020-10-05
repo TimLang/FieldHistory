@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class PersonDTO {
 
+    @HistoryField
     @ApiModelProperty(required = true, example = "علی")
     private String firstName;
 

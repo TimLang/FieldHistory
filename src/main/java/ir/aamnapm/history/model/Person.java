@@ -19,6 +19,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @HistoryField
     @Column(name = "first_name", length = 50)
     private String firstName;
 

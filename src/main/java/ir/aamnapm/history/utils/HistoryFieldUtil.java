@@ -28,7 +28,7 @@ public class HistoryFieldUtil<D, O> {
     }
 
     private static String getKey(Field field) {
-        return "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1).toLowerCase();
+        return "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
     }
 
     public void checkAndSave() {
