@@ -18,10 +18,16 @@ public class FieldHistoryService implements IFieldHistoryService {
 
     @Override
     public void create(FieldHistoryDTO dto) {
+        //set endDate for old value
+        FieldHistory byTableNameAndRecordIdAndFieldAndEndDate = fieldHistoryDAO.findByTableNameAndRecordIdAndFieldAndEndDate(dto.getTableName(), dto.getRecordId(), dto.getField(), null);
+        if (byTableNameAndRecordIdAndFieldAndEndDate != null) {
+            byTableNameAndRecordIdAndFieldAndEndDate.setEndDate(dto.getEndDate());
+            fieldHistoryDAO.save(byTableNameAndRecordIdAndFieldAndEndDate);
+        }
+
         FieldHistory fieldHistory = new FieldHistory();
         fieldHistory.setField(dto.getField());
         fieldHistory.setValue(dto.getValue());
-        fieldHistory.setEndDate(dto.getEndDate());
         fieldHistory.setRecordId(dto.getRecordId());
         fieldHistory.setTableName(dto.getTableName());
         fieldHistory.setStartDate(dto.getStartDate());

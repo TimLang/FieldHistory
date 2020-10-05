@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-//@RequiredArgsConstructor
 public class HistoryFieldUtil<D, O> {
 
 
@@ -61,7 +60,7 @@ public class HistoryFieldUtil<D, O> {
                 boolean fieldHasUpdate = checkValue(objectValue, dtoValue);
 
                 if (fieldHasUpdate) {
-                    saveOldValue(field, objectValue, recordId);
+                    saveOldValue(field, String.valueOf(objectValue), recordId);
                 }
             }
         }
@@ -69,11 +68,11 @@ public class HistoryFieldUtil<D, O> {
 
     }
 
-    private void saveOldValue(Field field, Object objectValue, Long recordId) {
+    private void saveOldValue(Field field, String objectValue, Long recordId) {
         FieldHistoryDTO fieldHistory = new FieldHistoryDTO();
         fieldHistory.setField(field.getName());
-        fieldHistory.setValue(objectValue.toString());
-//                fieldHistory.setEndDate();
+        fieldHistory.setValue(objectValue);
+        fieldHistory.setEndDate(new Date(System.currentTimeMillis()));
         fieldHistory.setRecordId(recordId);
         fieldHistory.setTableName(objClass.getSimpleName());
         fieldHistory.setStartDate(new Date(System.currentTimeMillis()));
@@ -86,9 +85,7 @@ public class HistoryFieldUtil<D, O> {
 
     private Object getObjectValue(Field field) {
         try {
-
             return objClass.getMethod(getKey(field)).invoke(object);
-
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
             return null;
@@ -97,9 +94,7 @@ public class HistoryFieldUtil<D, O> {
 
     private Object getDTOValue(Field field) {
         try {
-
             return dtoClass.getMethod(getKey(field)).invoke(dto);
-
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
             return null;

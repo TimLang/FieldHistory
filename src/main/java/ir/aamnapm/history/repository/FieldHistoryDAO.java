@@ -21,4 +21,6 @@ public interface FieldHistoryDAO extends JpaRepository<FieldHistory, Long>, JpaS
 
     List<FieldHistory> findByEndDate(Date endDate);
 
+    FieldHistory findByTableNameAndRecordIdAndFieldAndEndDate(String tableName, Long recordId, String field, Date endDate);
+
 }
