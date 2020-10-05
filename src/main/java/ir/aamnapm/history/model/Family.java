@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "person")
+@Table(name = "family")
 //@HistoryFieldEntity(name = "person")
-public class Person {
+public class Family {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,15 +23,9 @@ public class Person {
     @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Column(name = "last_name", length = 50)
-    private String lastName;
-
     @HistoryField
-    @Column(name = "age", length = 4)
-    private Integer age;
-
-    @Column(name = "comment", length = 5000)
-    private String comment;
+    @Column(name = "relationship", length = 50)
+    private String relationship;
 
     @Column(name = "version", length = 10)
     private Integer version;
