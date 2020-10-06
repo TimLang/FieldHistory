@@ -1,26 +1,28 @@
 package ir.aamnapm.history.repository;
 
+
 import ir.aamnapm.history.model.FieldHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
-public interface FieldHistoryDAO extends JpaRepository<FieldHistory, Long>, JpaSpecificationExecutor<FieldHistory> {
+@Repository
+public interface FieldHistoryDAO<E extends FieldHistory, ID> extends JpaRepository<E, ID> {
 
-    List<FieldHistory> findByRecordId(Long id);
+    List<E> findByRecordId(ID id);
 
-    List<FieldHistory> findByField(String field);
+    List<E> findByField(String field);
 
-    List<FieldHistory> findByTableName(String tableName);
+    List<E> findByTableName(String tableName);
 
-    List<FieldHistory> findByStartDateAndEndDate(Date startDate, Date endDate);
+    List<E> findByStartDateAndEndDate(Date startDate, Date endDate);
 
-    List<FieldHistory> findByStartDate(Date startDate);
+    List<E> findByStartDate(Date startDate);
 
-    List<FieldHistory> findByEndDate(Date endDate);
+    List<E> findByEndDate(Date endDate);
 
-    FieldHistory findByTableNameAndRecordIdAndFieldAndEndDate(String tableName, Long recordId, String field, Date endDate);
+    E findByTableNameAndRecordIdAndFieldAndEndDate(String tableName, ID recordId, String field, Date endDate);
 
 }

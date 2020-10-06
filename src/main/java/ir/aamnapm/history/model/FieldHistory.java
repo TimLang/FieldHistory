@@ -9,11 +9,11 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "field_history")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class FieldHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "end_date")
