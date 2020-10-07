@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class FamilyService implements IFamilyService {
 
     private final FamilyDAO familyDAO;
-    private final IFieldHistoryService<FieldHistoryFamily> iFieldHistoryService;
+    private final IFieldHistoryService iFieldHistoryService;
 
     @Override
     public FamilyDTO.Info create(FamilyDTO dto) {

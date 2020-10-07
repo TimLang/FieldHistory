@@ -13,32 +13,32 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class FieldHistoryService<T extends FieldHistory> implements IFieldHistoryService<T> {
+public class FieldHistoryService implements IFieldHistoryService {
 
-    private final FieldHistoryDAO<T, Long> fieldHistoryDAO;
+    private final FieldHistoryDAO<FieldHistory, Long> fieldHistoryDAO;
 
     @Override
-    public void create(FieldHistoryDTO dto, T filedHistory) {
+    public void create(FieldHistoryDTO dto, FieldHistory filedHistory) {
         //set endDate for old value
-        T byTableNameAndRecordIdAndFieldAndEndDate = fieldHistoryDAO.findByTableNameAndRecordIdAndFieldAndEndDate(dto.getTableName(), dto.getRecordId(), dto.getField(), null);
+        FieldHistory byTableNameAndRecordIdAndFieldAndEndDate = fieldHistoryDAO.findByTableNameAndRecordIdAndFieldAndEndDate(dto.getTableName(), dto.getRecordId(), dto.getField(), null);
         if (byTableNameAndRecordIdAndFieldAndEndDate != null) {
             byTableNameAndRecordIdAndFieldAndEndDate.setEndDate(dto.getEndDate());
             fieldHistoryDAO.save(byTableNameAndRecordIdAndFieldAndEndDate);
         }
 
-        T fieldHistory = filedHistory;
-        fieldHistory.setField(dto.getField());
-        fieldHistory.setValue(dto.getValue());
-        fieldHistory.setRecordId(dto.getRecordId());
-        fieldHistory.setTableName(dto.getTableName());
-        fieldHistory.setStartDate(dto.getStartDate());
-        fieldHistoryDAO.save(fieldHistory);
+        FieldHistory fieldHistory1 = filedHistory;
+        fieldHistory1.setField(dto.getField());
+        fieldHistory1.setValue(dto.getValue());
+        fieldHistory1.setRecordId(dto.getRecordId());
+        fieldHistory1.setTableName(dto.getTableName());
+        fieldHistory1.setStartDate(dto.getStartDate());
+        fieldHistoryDAO.save(fieldHistory1);
     }
 
     @SneakyThrows
     @Override
     public FieldHistoryDTO.Info getById(Long id) {
-        T fieldHistory = fieldHistoryDAO.findById(id).orElseThrow(null);
+        FieldHistory fieldHistory = fieldHistoryDAO.findById(id).orElseThrow(null);
 
         FieldHistoryDTO.Info fieldHistoryDTO = new FieldHistoryDTO.Info();
         fieldHistoryDTO.setId(fieldHistory.getId());
@@ -54,7 +54,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByRecordId(Long id) {
-        List<T> all = fieldHistoryDAO.findByRecordId(id);
+        List<FieldHistory> all = fieldHistoryDAO.findByRecordId(id);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -73,7 +73,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByField(String field) {
-        List<T> all = fieldHistoryDAO.findByField(field);
+        List<FieldHistory> all = fieldHistoryDAO.findByField(field);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -93,7 +93,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByTableName(String tableName) {
-        List<T> all = fieldHistoryDAO.findByTableName(tableName);
+        List<FieldHistory> all = fieldHistoryDAO.findByTableName(tableName);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -114,7 +114,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByStartDateAndEndDate(Date startDate, Date endDate) {
-        List<T> all = fieldHistoryDAO.findByStartDateAndEndDate(startDate, endDate);
+        List<FieldHistory> all = fieldHistoryDAO.findByStartDateAndEndDate(startDate, endDate);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -134,7 +134,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByStartDate(Date startDate) {
-        List<T> all = fieldHistoryDAO.findByStartDate(startDate);
+        List<FieldHistory> all = fieldHistoryDAO.findByStartDate(startDate);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -154,7 +154,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getByEndDate(Date endDate) {
-        List<T> all = fieldHistoryDAO.findByEndDate(endDate);
+        List<FieldHistory> all = fieldHistoryDAO.findByEndDate(endDate);
 
         return all.stream()
                 .map(fieldHistory -> {
@@ -174,7 +174,7 @@ public class FieldHistoryService<T extends FieldHistory> implements IFieldHistor
 
     @Override
     public List<FieldHistoryDTO.Info> getList() {
-        List<T> all = fieldHistoryDAO.findAll();
+        List<FieldHistory> all = fieldHistoryDAO.findAll();
 
         return all.stream()
                 .map(fieldHistory -> {

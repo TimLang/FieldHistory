@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class PersonService implements IPersonService {
 
     private final PersonDAO personDAO;
-    private final IFieldHistoryService<FieldHistoryPerson> iFieldHistoryService;
+    private final IFieldHistoryService iFieldHistoryService;
 
     @Override
     public PersonDTO.Info create(PersonDTO dto) {

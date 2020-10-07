@@ -1,13 +1,14 @@
 package ir.aamnapm.history.service;
 
 import ir.aamnapm.history.dto.FieldHistoryDTO;
+import ir.aamnapm.history.model.FieldHistory;
 
 import java.util.Date;
 import java.util.List;
 
-public interface IFieldHistoryService<F> {
+public interface IFieldHistoryService {
 
-    void create(FieldHistoryDTO dto, F filedHistory);
+    void create(FieldHistoryDTO dto, FieldHistory filedHistory);
 
     FieldHistoryDTO.Info getById(Long id);
 

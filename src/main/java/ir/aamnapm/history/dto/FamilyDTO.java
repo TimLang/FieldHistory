@@ -3,6 +3,7 @@ package ir.aamnapm.history.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import ir.aamnapm.history.annotation.HistoryField;
+import ir.aamnapm.history.model.FieldHistoryFamily;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "family")
-//@HistoryFieldEntity(name = "person")
+@HistoryFieldEntity(sClass = FieldHistoryFamily.class)
 public class Family {
 
     @Id

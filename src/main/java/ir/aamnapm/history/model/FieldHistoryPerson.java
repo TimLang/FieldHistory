@@ -1,5 +1,6 @@
 package ir.aamnapm.history.model;
 
+import ir.aamnapm.history.annotation.HistoryFieldEntity;
 import lombok.Getter;
 import lombok.Setter;
 
