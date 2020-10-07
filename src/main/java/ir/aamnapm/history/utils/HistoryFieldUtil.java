@@ -20,7 +20,7 @@ public class HistoryFieldUtil<D, O, F> {
     private Class<O> objClass;
     private IFieldHistoryService iFieldHistoryService;
 
-    public HistoryFieldUtil(D dto, Class<D> dtoClass, O object, Class<O> objClass, IFieldHistoryService iFieldHistoryService, F fieldHistory) {
+    public HistoryFieldUtil(D dto, Class<D> dtoClass, O object, Class<O> objClass, IFieldHistoryService iFieldHistoryService) {
         this.dto = dto;
         this.object = object;
         this.dtoClass = dtoClass;
@@ -65,6 +65,7 @@ public class HistoryFieldUtil<D, O, F> {
                 boolean fieldHasUpdate = checkValue(objectValue, dtoValue);
 
                 if (fieldHasUpdate) {
+                    //todo
                     saveOldValue(field, String.valueOf(objectValue), recordId, objectClassValue);
                 }
             }

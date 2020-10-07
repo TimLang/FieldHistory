@@ -32,6 +32,7 @@ public class FieldHistoryService implements IFieldHistoryService {
         fieldHistory1.setRecordId(dto.getRecordId());
         fieldHistory1.setTableName(dto.getTableName());
         fieldHistory1.setStartDate(dto.getStartDate());
+        fieldHistory1.setEndDate(dto.getEndDate());
         fieldHistoryDAO.save(fieldHistory1);
     }
 
