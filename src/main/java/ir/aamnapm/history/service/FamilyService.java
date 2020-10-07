@@ -2,6 +2,7 @@ package ir.aamnapm.history.service;
 
 import ir.aamnapm.history.dto.FamilyDTO;
 import ir.aamnapm.history.model.Family;
+import ir.aamnapm.history.model.FieldHistoryFamily;
 import ir.aamnapm.history.repository.FamilyDAO;
 import ir.aamnapm.history.utils.HistoryFieldUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class FamilyService implements IFamilyService {
 
     private final FamilyDAO familyDAO;
-    private final IFieldHistoryService iFieldHistoryService;
+    private final IFieldHistoryService<FieldHistoryFamily> iFieldHistoryService;
 
     @Override
     public FamilyDTO.Info create(FamilyDTO dto) {
@@ -45,7 +46,7 @@ public class FamilyService implements IFamilyService {
 
         if (byId.isPresent()) {
 
-            new HistoryFieldUtil(dto, FamilyDTO.class, byId.get(), Family.class, iFieldHistoryService).checkAndSave();
+            new HistoryFieldUtil(dto, FamilyDTO.class, byId.get(), Family.class, iFieldHistoryService, new FieldHistoryFamily()).checkAndSave();
 
             Family person = byId.get();
             person.setId(id);

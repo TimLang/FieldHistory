@@ -5,9 +5,9 @@ import ir.aamnapm.history.dto.FieldHistoryDTO;
 import java.util.Date;
 import java.util.List;
 
-public interface IFieldHistoryService {
+public interface IFieldHistoryService<F> {
 
-    void create(FieldHistoryDTO dto);
+    void create(FieldHistoryDTO dto, F filedHistory);
 
     FieldHistoryDTO.Info getById(Long id);
 

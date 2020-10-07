@@ -1,6 +1,7 @@
 package ir.aamnapm.history.service;
 
 import ir.aamnapm.history.dto.PersonDTO;
+import ir.aamnapm.history.model.FieldHistoryPerson;
 import ir.aamnapm.history.model.Person;
 import ir.aamnapm.history.repository.PersonDAO;
 import ir.aamnapm.history.utils.HistoryFieldUtil;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class PersonService implements IPersonService {
 
     private final PersonDAO personDAO;
-    private final IFieldHistoryService iFieldHistoryService;
+    private final IFieldHistoryService<FieldHistoryPerson> iFieldHistoryService;
 
     @Override
     public PersonDTO.Info create(PersonDTO dto) {
@@ -49,7 +50,7 @@ public class PersonService implements IPersonService {
 
         if (byId.isPresent()) {
 
-            new HistoryFieldUtil(dto, PersonDTO.class, byId.get(), Person.class, iFieldHistoryService).checkAndSave();
+            new HistoryFieldUtil(dto, PersonDTO.class, byId.get(), Person.class, iFieldHistoryService, new FieldHistoryPerson()).checkAndSave();
 
             Person person = byId.get();
             person.setId(id);

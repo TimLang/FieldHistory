@@ -10,20 +10,21 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-public class HistoryFieldUtil<D, O> {
-
+public class HistoryFieldUtil<D, O, F> {
 
     private D dto;
     private O object;
+    private F fieldHistory;
     private Class<D> dtoClass;
     private Class<O> objClass;
-    private IFieldHistoryService iFieldHistoryService;
+    private IFieldHistoryService<F> iFieldHistoryService;
 
-    public HistoryFieldUtil(D dto, Class<D> dtoClass, O object, Class<O> objClass, IFieldHistoryService iFieldHistoryService) {
+    public HistoryFieldUtil(D dto, Class<D> dtoClass, O object, Class<O> objClass, IFieldHistoryService<F> iFieldHistoryService, F fieldHistory) {
         this.dto = dto;
         this.object = object;
         this.dtoClass = dtoClass;
         this.objClass = objClass;
+        this.fieldHistory = fieldHistory;
         this.iFieldHistoryService = iFieldHistoryService;
     }
 
@@ -69,14 +70,14 @@ public class HistoryFieldUtil<D, O> {
     }
 
     private void saveOldValue(Field field, String objectValue, Long recordId) {
-        FieldHistoryDTO fieldHistory = new FieldHistoryDTO();
-        fieldHistory.setField(field.getName());
-        fieldHistory.setValue(objectValue);
-        fieldHistory.setEndDate(new Date(System.currentTimeMillis()));
-        fieldHistory.setRecordId(recordId);
-        fieldHistory.setTableName(objClass.getSimpleName());
-        fieldHistory.setStartDate(new Date(System.currentTimeMillis()));
-        iFieldHistoryService.create(fieldHistory);
+        FieldHistoryDTO fieldHistoryDTO = new FieldHistoryDTO();
+        fieldHistoryDTO.setField(field.getName());
+        fieldHistoryDTO.setValue(objectValue);
+        fieldHistoryDTO.setEndDate(new Date(System.currentTimeMillis()));
+        fieldHistoryDTO.setRecordId(recordId);
+        fieldHistoryDTO.setTableName(objClass.getSimpleName());
+        fieldHistoryDTO.setStartDate(new Date(System.currentTimeMillis()));
+        iFieldHistoryService.create(fieldHistoryDTO, fieldHistory);
     }
 
     private boolean checkValue(Object objectValue, Object dtoValue) {
