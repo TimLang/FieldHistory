@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface HistoryField {
-    public String name() default "";
+//    public String name() default "";
 
 //    public Class sClass();
 }

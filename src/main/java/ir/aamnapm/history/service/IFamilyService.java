@@ -8,7 +8,7 @@ public interface IFamilyService {
 
     FamilyDTO.Info create(FamilyDTO dto);
 
-    FamilyDTO.Info update(FamilyDTO dto, Long id);
+    FamilyDTO.Info update(FamilyDTO.Update dto, Long id);
 
     FamilyDTO.Info getById(Long id);
 

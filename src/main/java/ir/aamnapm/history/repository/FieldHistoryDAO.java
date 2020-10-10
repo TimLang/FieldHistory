@@ -2,6 +2,7 @@ package ir.aamnapm.history.repository;
 
 
 import ir.aamnapm.history.model.FieldHistory;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +25,7 @@ public interface FieldHistoryDAO<E extends FieldHistory, ID> extends JpaReposito
     List<E> findByEndDate(Date endDate);
 
     E findByTableNameAndRecordIdAndFieldAndEndDate(String tableName, ID recordId, String field, Date endDate);
+
+    E findByTableNameAndRecordIdAndField(String tableName, ID recordId, String field, Sort sort);
 
 }

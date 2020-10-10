@@ -8,7 +8,7 @@ public interface IPersonService {
 
     PersonDTO.Info create(PersonDTO dto);
 
-    PersonDTO.Info update(PersonDTO dto, Long id);
+    PersonDTO.Info update(PersonDTO.Update dto, Long id);
 
     PersonDTO.Info getById(Long id);
 
