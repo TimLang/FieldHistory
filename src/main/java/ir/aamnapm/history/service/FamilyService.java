@@ -40,12 +40,12 @@ public class FamilyService implements IFamilyService {
 
     @Transactional
     @Override
-    public FamilyDTO.Info update(FamilyDTO dto, Long id) {
+    public FamilyDTO.Info update(FamilyDTO.Update dto, Long id) {
         Optional<Family> byId = familyDAO.findById(id);
 
         if (byId.isPresent()) {
 
-            new HistoryFieldUtil(dto, FamilyDTO.class, byId.get(), Family.class, iFieldHistoryService).checkAndSave();
+            new HistoryFieldUtil(dto, FamilyDTO.class, byId.get(), Family.class, iFieldHistoryService, dto.getChangeLogDTO()).checkAndSave();
 
             Family person = byId.get();
             person.setId(id);

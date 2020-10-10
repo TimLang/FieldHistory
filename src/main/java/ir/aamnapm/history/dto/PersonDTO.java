@@ -1,9 +1,9 @@
 package ir.aamnapm.history.dto;
 
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import ir.aamnapm.history.annotation.HistoryField;
-import ir.aamnapm.history.model.FieldHistoryPerson;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +25,25 @@ public class PersonDTO {
     @ApiModelProperty(required = true, example = "به گزارش ورزش سه، برگردیم به سال 1394؛ آن روزها شرایط در ایران و بسیاری از نقاط دنیا خیلی متفاوتتر از چیزی بود که این روزها با آن سر و کار داریم. قیمت 3 هزارتومنی دلار و سکه 905 هزار تومنی هیج سنخیتی با بازار آشفته این روزهای کشور ندارد و در این بین ویروس کرونا هم خود را به عنوان سوغاتی جدید نظم نوین جهان معرفی کرده است؛ ویروسی که تاثیر مخربی بر تمام حوزههای زندگی گذاشته و مسلما فوتبال هم از این ماجرا جدا نبوده است.")
     private String comment;
 
+    @Setter
+    @Getter
+    @ApiModel("PersonCreate")
+    public static class Create extends PersonDTO {
+
+    }
+
+    @Setter
+    @Getter
+    @ApiModel("PersonUpdate")
+    public static class Update extends PersonDTO {
+
+        @ApiModelProperty
+        private ChangeLogDTO changeLogDTO;
+    }
+
     @Getter
     @Setter
+    @ApiModel("PersonInfo")
     public static class Info extends PersonDTO {
         private Long id;
         private Integer version;

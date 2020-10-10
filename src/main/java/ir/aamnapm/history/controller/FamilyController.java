@@ -28,12 +28,12 @@ public class FamilyController {
     }
 
     @PostMapping
-    public ResponseEntity<FamilyDTO.Info> create(@RequestBody FamilyDTO dto) {
+    public ResponseEntity<FamilyDTO.Info> create(@RequestBody FamilyDTO.Create dto) {
         return new ResponseEntity<>(iFamilyService.create(dto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<FamilyDTO.Info> update(@RequestBody FamilyDTO dto, @PathVariable Long id) {
+    public ResponseEntity<FamilyDTO.Info> update(@RequestBody FamilyDTO.Update dto, @PathVariable Long id) {
         return new ResponseEntity<>(iFamilyService.update(dto, id), HttpStatus.OK);
     }
 

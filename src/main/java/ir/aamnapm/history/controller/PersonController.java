@@ -27,12 +27,12 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO.Info> create(@RequestBody PersonDTO dto) {
+    public ResponseEntity<PersonDTO.Info> create(@RequestBody PersonDTO.Create dto) {
         return new ResponseEntity<>(iPersonService.create(dto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PersonDTO.Info> update(@RequestBody PersonDTO dto, @PathVariable Long id) {
+    public ResponseEntity<PersonDTO.Info> update(@RequestBody PersonDTO.Update dto, @PathVariable Long id) {
         return new ResponseEntity<>(iPersonService.update(dto, id), HttpStatus.OK);
     }
 

@@ -44,12 +44,12 @@ public class PersonService implements IPersonService {
 
     @Transactional
     @Override
-    public PersonDTO.Info update(PersonDTO dto, Long id) {
+    public PersonDTO.Info update(PersonDTO.Update dto, Long id) {
         Optional<Person> byId = personDAO.findById(id);
 
         if (byId.isPresent()) {
 
-            new HistoryFieldUtil(dto, PersonDTO.class, byId.get(), Person.class, iFieldHistoryService).checkAndSave();
+            new HistoryFieldUtil(dto, PersonDTO.class, byId.get(), Person.class, iFieldHistoryService, dto.getChangeLogDTO()).checkAndSave();
 
             Person person = byId.get();
             person.setId(id);
