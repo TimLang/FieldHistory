@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,18 +32,21 @@ public class FieldHistoryService implements IFieldHistoryService {
 
             if (changeLogDTO.getHasDate()) {
 
-                Date endDate = checkDate(changeLogDTO.getDate());
+                LocalDate endDate = checkDate(convertDateToLocalDate(changeLogDTO.getDate()));
 
                 List<FieldHistory> all = fieldHistoryDAO.findAll();
 
                 if (all.size() > 0) {
                     Sort sortById = Sort.by(Sort.Direction.ASC, "id");
-                    FieldHistory byTableNameAndRecordIdAndFieldAndEndDate = fieldHistoryDAO.findByTableNameAndRecordIdAndField(simpleName, recordId, field.getName(), sortById);
+                    List<FieldHistory> byTableNameAndRecordIdAndField = fieldHistoryDAO.findByTableNameAndRecordIdAndField(simpleName, recordId, field.getName(), sortById);
+                    FieldHistory byTableNameAndRecordIdAndFieldAndEndDate = byTableNameAndRecordIdAndField.get(byTableNameAndRecordIdAndField.size() - 1);
 
                     if (byTableNameAndRecordIdAndFieldAndEndDate != null) {
 
-                        if (endDate.getTime() > byTableNameAndRecordIdAndFieldAndEndDate.getEndDate().getTime()) {
+                        if (endDate.isAfter(convertDateToLocalDate(new Date(byTableNameAndRecordIdAndFieldAndEndDate.getEndDate().getTime())))) {
                             fieldHistoryDAO.save(generateFieldHistory(recordId, field, objectValue, simpleName, byTableNameAndRecordIdAndFieldAndEndDate.getEndDate(), endDate, objectClassValue));
+                        } else if (endDate.equals(convertDateToLocalDate(new Date(byTableNameAndRecordIdAndFieldAndEndDate.getEndDate().getTime())))) {
+                            //in this case we dont have log. we update current record
                         } else {
                             throw new DateException("تاریخ ارسالی باید بزرگتر از تاریخ پایان آخرین رکورد باشد");
                         }
@@ -50,7 +55,7 @@ public class FieldHistoryService implements IFieldHistoryService {
                     }
                 } else {
 
-                    if (endDate.getTime() > ((Date) createDate).getTime()) {
+                    if (endDate.isAfter(((LocalDate) createDate))) {
                         fieldHistoryDAO.save(generateFieldHistory(recordId, field, objectValue, simpleName, createDate, endDate, objectClassValue));
                     } else {
                         throw new DateException("تاریخ ارسالی باید بزرگتر از تاریخ پایان آخرین رکورد باشد");
@@ -62,9 +67,29 @@ public class FieldHistoryService implements IFieldHistoryService {
         }
     }
 
-    private Date checkDate(Date date) {
+    private LocalDate convertDateToLocalDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date.getTime());
+        int y = calendar.get(Calendar.YEAR);
+        int m = calendar.get(Calendar.MONTH);
+        int d = calendar.get(Calendar.DAY_OF_MONTH);
+        return LocalDate.of(y, m, d);
+    }
+
+    private Date convertLocalDateToDate(LocalDate date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        return calendar.getTime();
+    }
+
+    private LocalDate checkDate(LocalDate date) {
         if (date == null) {
-            date = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            int y = calendar.get(Calendar.YEAR);
+            int m = calendar.get(Calendar.MONTH);
+            int d = calendar.get(Calendar.DAY_OF_MONTH);
+            date = LocalDate.of(y, m, d);
         }
         return date;
     }
@@ -226,14 +251,14 @@ public class FieldHistoryService implements IFieldHistoryService {
                 .collect(Collectors.toList());
     }
 
-    private FieldHistory generateFieldHistory(Long recordId, Field field, String objectValue, String simpleName, Object startDate, Date endDate, FieldHistory objectClassValue) {
+    private FieldHistory generateFieldHistory(Long recordId, Field field, String objectValue, String simpleName, Object startDate, LocalDate endDate, FieldHistory objectClassValue) {
         FieldHistory fieldHistory = objectClassValue;
         fieldHistory.setField(field.getName());
         fieldHistory.setValue(objectValue);
         fieldHistory.setRecordId(recordId);
         fieldHistory.setTableName(simpleName);
         fieldHistory.setStartDate((Date) startDate);
-        fieldHistory.setEndDate(endDate);
+        fieldHistory.setEndDate(convertLocalDateToDate(endDate));
         return fieldHistory;
     }
 }

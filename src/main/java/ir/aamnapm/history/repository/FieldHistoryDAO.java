@@ -26,6 +26,6 @@ public interface FieldHistoryDAO<E extends FieldHistory, ID> extends JpaReposito
 
     E findByTableNameAndRecordIdAndFieldAndEndDate(String tableName, ID recordId, String field, Date endDate);
 
-    E findByTableNameAndRecordIdAndField(String tableName, ID recordId, String field, Sort sort);
+    List<E> findByTableNameAndRecordIdAndField(String tableName, ID recordId, String field, Sort sort);
 
 }
